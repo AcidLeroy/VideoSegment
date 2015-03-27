@@ -18,3 +18,4 @@ Please run the provided lint tool with this as well.
 - Make sure that when you are building that you set the correct environment
   variables up to find where you installed OpenCV. I personally don't like
   to install things in my root directory if I can help it. 
+- 
