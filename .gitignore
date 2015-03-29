@@ -2,4 +2,5 @@ build/*
 *.a
 *.o
 *.swp
+tags
 
