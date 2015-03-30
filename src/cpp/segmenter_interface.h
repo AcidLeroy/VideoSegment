@@ -9,7 +9,7 @@
 class SegmenterInterface {
  public:
   virtual ~SegmenterInterface() {}
-  virtual void SegmentVideo(const cv::VideoCapture &vc,
+  virtual void SegmentVideo(cv::VideoCapture *vc,
                             std::vector<int> *indices) = 0;
 };
 #endif  // SRC_CPP_SEGMENTER_INTERFACE_H_

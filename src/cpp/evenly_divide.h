@@ -2,13 +2,17 @@
 #ifndef SRC_CPP_EVENLY_DIVIDE_H_
 #define SRC_CPP_EVENLY_DIVIDE_H_
 #include <vector>
-#include "segmenter_interface.h" // NOLINT
+#include "segmenter_interface.h"  // NOLINT
 class EvenlyDivide : public SegmenterInterface {
  public:
   // dtor
   virtual ~EvenlyDivide();
   EvenlyDivide();
-  virtual void SegmentVideo(const cv::VideoCapture &vc,
-                            std::vector<int> *indices);
+  void SetNumDivisions(int div) { num_divisions_ = div; }
+  int GetNumDivisions() { return num_divisions_; }
+  virtual void SegmentVideo(cv::VideoCapture *vc, std::vector<int> *indices);
+
+ private:
+  int num_divisions_;
 };
 #endif  // SRC_CPP_EVENLY_DIVIDE_H_
