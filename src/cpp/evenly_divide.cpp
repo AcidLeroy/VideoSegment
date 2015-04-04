@@ -9,7 +9,7 @@ EvenlyDivide::EvenlyDivide() : max_frames_(-1) {}
 EvenlyDivide::~EvenlyDivide() {}
 
 void EvenlyDivide::SegmentVideo(cv::VideoCapture *vc,
-                                std::vector<int> *indicies) {
+                                std::vector<Segment> *indicies) {
   if (!vc->isOpened()) {
     throw std::runtime_error("VideoCapture is not open!");
     return;
@@ -28,10 +28,9 @@ void EvenlyDivide::SegmentVideo(cv::VideoCapture *vc,
 
   int stride = count / num_divisions_;
   int value = 0;
-  indicies->push_back(value);
-  value = stride - 1;
-  for (int i = 1; i < num_divisions_; ++i) {
-    indicies->push_back(value);
+  for (int i = 0; i < num_divisions_; ++i) {
+    Segment s = {value, value + stride - 1};
+    indicies->push_back(s);
     value += stride;
   }
 }
