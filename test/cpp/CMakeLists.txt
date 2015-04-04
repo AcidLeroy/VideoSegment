@@ -1,9 +1,18 @@
 add_executable(EvenlyDivideTest evenly_dividetest.cpp)
+add_executable(UserDivideTest user_dividetest.cpp)
+
+include_directories(${OpenCV_INCLUDE_DIRS}
+  ${GTEST_INCLUDE_DIRS}
+  ../../src/cpp/
+  )
 target_link_libraries(EvenlyDivideTest 
   EvenlyDivide
   ${OpenCV_LIBS}
   ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(UserDivideTest 
+  UserDivide
+  ${OpenCV_LIBS}
+  ${GTEST_BOTH_LIBRARIES})
+
 add_test(AllTestsInSegmenter EvenlyDivideTest)
-include_directories(${OpenCV_INCLUDE_DIRS}
-  ${GTEST_INCLUDE_DIRS}
-  )
+add_test(AllTestsInSegmenter UserDivideTest)
