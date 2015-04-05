@@ -18,7 +18,7 @@ target_link_libraries(UserDivideTest
   ${GTEST_BOTH_LIBRARIES})
 
 target_link_libraries(VideoMarkerTest 
-  UserDivide
+  VideoMarker
   ${GTEST_BOTH_LIBRARIES})
 
 add_test(AllTestsInSegmenter EvenlyDivideTest)

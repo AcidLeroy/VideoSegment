@@ -18,3 +18,9 @@ target_include_directories(UserDivide PUBLIC
 target_link_libraries(UserDivide
   ${OpenCV_LIBS})
 include_directories(${OpenCV_INCLUDE_DIRS})
+
+add_library(VideoMarker STATIC
+  video_marker.cpp
+  segmenter_interface.h)
+target_include_directories(VideoMarker PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR})
