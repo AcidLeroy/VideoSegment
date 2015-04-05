@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "segmenter_interface.h"
+#include <algorithm>
 
 class VideoMarker {
   public: 
@@ -53,16 +54,56 @@ class VideoMarker {
     }
 
     std::vector<Segment> GetSegments() {
+      SortMarkedFrames(); 
       std::vector<Segment> s; 
+      int start = 0; 
+      int end = 0; 
+      for(int i = 0; i < marked_frames_.size(); ++i) {
+        std::cout << "End = " << end << " start = " << start << std::endl;
+        if (marked_frames_.size()-1 == i) {
+          std::cout << "Pushed " << start << ", " << end << std::endl;
+          s.push_back(GetSegment(start, end)); 
+        } else {
+          int diff = marked_frames_[i+1] - marked_frames_[i];
+          if (diff > 1) {
+            s.push_back(GetSegment(start, end)); 
+            std::cout << "Diff graeter than 1.\n"; 
+            start = i; 
+            end = start; 
+          } else {
+            std::cout << "Incremented end\n";
+            end++; 
+          }
+        }
+      }
+      return s; 
+    }
+
+    void SortMarkedFrames() {
+      std::sort(marked_frames_.begin(), marked_frames_.end());
+    }
+
+    Segment GetSegment(int start, int end) {
       Segment seg; 
-      int max = *max_element(std::begin(marked_frames_), 
-          std::end(marked_frames_));
-      int min = *min_element(std::begin(marked_frames_), 
-          std::end(marked_frames_));
+      if (marked_frames_.size() == 0) 
+        return seg; 
+
+      std::cout << "Marked frames size = " << 
+        marked_frames_.size() << std::endl; 
+
+      int max = marked_frames_[start]; 
+      int min = max; 
+      for (int i = start; i <= end; ++i) {
+        std::cout << "get seg: " << i << "\n"; 
+        if (marked_frames_[i] > max) 
+          max = marked_frames_[i]; 
+        if (marked_frames_[i] < min) 
+          min = marked_frames_[i]; 
+      }
+      std::cout << "Begin = " << min << " End = " << max << std::endl;
       seg.begin = min; 
       seg.end = max; 
-      s.push_back(seg); 
-      return s; 
+      return seg; 
     }
   private: 
     int current_frame_;
@@ -149,13 +190,32 @@ TEST_F(VideoMarkerTest, TestGetSingleSegment) {
   std::vector<int> marks = vm.GetMarkedFrames(); 
   for (int i = 0; i< marks.size(); ++i) 
     std::cout << "marks = " << marks[i] << std::endl; 
-  ASSERT_EQ(exp_segs.size(), 1); 
-  EXPECT_EQ(exp_segs[0].begin, 2); 
-  EXPECT_EQ(exp_segs[0].end, 3); 
+  ASSERT_EQ(1, exp_segs.size()); 
+  EXPECT_EQ(2, exp_segs[0].begin); 
+  EXPECT_EQ(3, exp_segs[0].end); 
   
 }
 
-TEST_F(VideoMarkerTest, DISABLED_TestGetMultipleSegment) {
+TEST_F(VideoMarkerTest, TestTurningOffMarking) {
+  vm.TurnMarkerOn(true); 
+  vm.TurnMarkerOn(false); 
+  std::vector<int> marks = vm.GetMarkedFrames(); 
+  EXPECT_EQ(0, marks.size());
+}
+
+TEST_F(VideoMarkerTest, TestSortedFrames) {
+  vm.NextFrame(); //1 
+  vm.NextFrame(); //2 
+  vm.TurnMarkerOn(true); //2 
+  vm.PreviousFrame(); // 1 
+  vm.PreviousFrame(); // 0 
+  vm.SortMarkedFrames(); 
+  std::vector<int> frames = vm.GetMarkedFrames(); 
+  EXPECT_EQ(0, frames[0]); 
+  EXPECT_EQ(1, frames[1]); 
+}
+
+TEST_F(VideoMarkerTest, TestGetMultipleSegment) {
   vm.NextFrame(); //1
   vm.NextFrame(); //2 
   vm.TurnMarkerOn(true); //2 
@@ -168,5 +228,5 @@ TEST_F(VideoMarkerTest, DISABLED_TestGetMultipleSegment) {
   vm.NextFrame(); 
   vm.NextFrame(); 
   std::vector<Segment>exp_segs =  vm.GetSegments(); 
-  ASSERT_EQ(exp_segs.size(), 2); 
+  ASSERT_EQ(2, exp_segs.size()); 
 }
