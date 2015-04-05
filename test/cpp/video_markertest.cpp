@@ -59,16 +59,17 @@ class VideoMarker {
       int start = 0; 
       int end = 0; 
       for(int i = 0; i < marked_frames_.size(); ++i) {
-        std::cout << "End = " << end << " start = " << start << std::endl;
+        std::cout << "Start = " << start << " End = " << end << std::endl; 
         if (marked_frames_.size()-1 == i) {
           std::cout << "Pushed " << start << ", " << end << std::endl;
           s.push_back(GetSegment(start, end)); 
         } else {
           int diff = marked_frames_[i+1] - marked_frames_[i];
           if (diff > 1) {
+            std::cout << "Pushed " << start << ", " << end << std::endl;
             s.push_back(GetSegment(start, end)); 
             std::cout << "Diff graeter than 1.\n"; 
-            start = i; 
+            start = end+1; 
             end = start; 
           } else {
             std::cout << "Incremented end\n";
@@ -221,12 +222,17 @@ TEST_F(VideoMarkerTest, TestGetMultipleSegment) {
   vm.TurnMarkerOn(true); //2 
   vm.NextFrame(); //3 
   vm.NextFrame(); //4 
-  vm.TurnMarkerOn(false); 
-  vm.NextFrame(); 
-  vm.NextFrame(); 
-  vm.TurnMarkerOn(true); 
-  vm.NextFrame(); 
-  vm.NextFrame(); 
+  vm.TurnMarkerOn(false); //4 
+  vm.NextFrame(); //5 
+  vm.NextFrame(); //6 
+  vm.TurnMarkerOn(true); //6 
+  vm.NextFrame();//7 
+  vm.NextFrame();//8  
   std::vector<Segment>exp_segs =  vm.GetSegments(); 
   ASSERT_EQ(2, exp_segs.size()); 
+  EXPECT_EQ(2, exp_segs[0].begin); 
+  EXPECT_EQ(3, exp_segs[0].end); 
+  EXPECT_EQ(6, exp_segs[1].begin); 
+  EXPECT_EQ(8, exp_segs[1].end); 
+
 }
