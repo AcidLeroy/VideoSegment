@@ -34,9 +34,18 @@ class VideoMarker {
           marked_frames_.push_back(current_frame_); 
     }
     void TurnMarkerOn(bool on) {
+      // Frame I'm looking at, I want marked
       if(on)
         MarkCurrentFrame(); 
+      // Frame at which I am looking I don't want marked
+      else
+        RemoveLastMarkedFrame(); 
       marker_on_ = on; 
+    }
+
+    void RemoveLastMarkedFrame() {
+      if (marked_frames_.size() > 0)
+        marked_frames_.erase(marked_frames_.end()-1); 
     }
 
     std::vector<int> GetMarkedFrames(){
@@ -126,31 +135,32 @@ TEST_F(VideoMarkerTest, TestGetSingleSegment) {
   vm.NextFrame(); 
   //1
   vm.NextFrame(); 
-  vm.TurnMarkerOn(true); 
+  // Turn marker on on the current frame
+  vm.TurnMarkerOn(true);  
   //2
   vm.NextFrame(); 
   //3
   vm.NextFrame(); 
-  //4
+  //4 Turn marker off on the current frame. 
   vm.TurnMarkerOn(false); 
   vm.NextFrame(); 
   vm.NextFrame(); 
   std::vector<Segment>exp_segs =  vm.GetSegments(); 
   std::vector<int> marks = vm.GetMarkedFrames(); 
   for (int i = 0; i< marks.size(); ++i) 
-    std::cout << "marks = " << marks[i] << std::endl;
+    std::cout << "marks = " << marks[i] << std::endl; 
   ASSERT_EQ(exp_segs.size(), 1); 
   EXPECT_EQ(exp_segs[0].begin, 2); 
-  EXPECT_EQ(exp_segs[0].end, 4); 
+  EXPECT_EQ(exp_segs[0].end, 3); 
   
 }
 
 TEST_F(VideoMarkerTest, DISABLED_TestGetMultipleSegment) {
-  vm.NextFrame(); 
-  vm.NextFrame(); 
-  vm.TurnMarkerOn(true); 
-  vm.NextFrame(); 
-  vm.NextFrame(); 
+  vm.NextFrame(); //1
+  vm.NextFrame(); //2 
+  vm.TurnMarkerOn(true); //2 
+  vm.NextFrame(); //3 
+  vm.NextFrame(); //4 
   vm.TurnMarkerOn(false); 
   vm.NextFrame(); 
   vm.NextFrame(); 
