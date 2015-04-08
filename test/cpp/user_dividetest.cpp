@@ -8,21 +8,17 @@
 #include "gtest/gtest.h"
 
 // Test code
-class UserDivideTest : public ::testing::Test{
-  protected:
-    virtual void SetUp() {
-      filename = 
-        "/Volumes/my_data/data/Movies/GroupD/GO010077D21.MP4";
-
-    }
-    UserDivide ud; 
-    std::string filename; 
-    std::vector<Segment> segments; 
-      
+class UserDivideTest : public ::testing::Test {
+ protected:
+  virtual void SetUp() {
+    filename = "/Volumes/my_data/data/Movies/GroupD/GO010077D21.MP4";
+  }
+  UserDivide ud;
+  std::string filename;
+  std::vector<Segment> segments;
 };
 
 TEST_F(UserDivideTest, TestNamedWindow) {
-  cv::VideoCapture vc(filename); 
-  ud.SegmentVideo(&vc, &segments); 
+  cv::VideoCapture vc(filename);
+  ud.SegmentVideo(&vc, &segments);
 }
-

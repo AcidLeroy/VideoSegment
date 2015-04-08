@@ -24,3 +24,5 @@ add_library(VideoMarker STATIC
   segmenter_interface.h)
 target_include_directories(VideoMarker PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(programs)

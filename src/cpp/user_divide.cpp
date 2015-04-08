@@ -6,6 +6,10 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+UserDivide::UserDivide() {
+}
+UserDivide::~UserDivide() {
+}
 void UserDivide::CallBackFunc(int event, int x, int y, 
     int flags, void *userdata){
   UserDivide *ud = static_cast<UserDivide*>(userdata); 
