@@ -8,10 +8,10 @@
 #include <string>
 
 int main(int argc, char *argv[]) {
-  std::string filename = "/Volumes/my_data/data/Movies/GroupD/GO010077D21.MP4";
+  std::string filename = "/Users/cody/test.mov";
   cv::VideoCapture vc(filename);
   UserDivide ud; 
   std::vector<Segment> segments;  
-  //ud.SegmentVideo(&vc, &segments);  
+  ud.SegmentVideo(&vc, &segments);  
   return 0;
 }

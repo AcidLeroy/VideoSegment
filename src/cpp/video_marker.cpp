@@ -5,7 +5,7 @@ class VideoMarker {
   public: 
     VideoMarker() : current_frame_(0),
   marker_on_(false){}
-    int GetCurrentFrame() {
+    int GetCurrentFrame() const {
       return current_frame_; 
     }
     void NextFrame() {

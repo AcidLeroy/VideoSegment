@@ -1,5 +1,6 @@
 // Copyright (c) 2015 <Cody W. Eilar>
 #include "segmenter_interface.h"  // NOLINT
+#include "video_marker.cpp"
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/videoio/videoio.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -8,12 +9,10 @@
 
 class UserDivide : public SegmenterInterface{
   public: 
-    UserDivide(); 
-    ~UserDivide();
     static void CallBackFunc(int event, int x, int y, 
         int flags, void *userdata);
 
-    void ShowFrame(const cv::Mat &frame, const std::string &win_name_) ;
+    void ShowFrame(const VideoMarker &vm) ;
 
     virtual void SegmentVideo(cv::VideoCapture *vc, 
         std::vector<Segment> *indices);  
@@ -23,5 +22,6 @@ class UserDivide : public SegmenterInterface{
     std::vector<Segment> segments_; 
     Segment current_seg_; 
     bool toggle_; 
+    bool marker_;
 
 }; 
