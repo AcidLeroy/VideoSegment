@@ -40,7 +40,6 @@ void UserDivide::CallBackFunc(int event, int x, int y, int flags,
 
 void UserDivide::ShowFrame(const VideoMarker &vm) {
 	// Resize image because it is too big
-
 	std::cout << "current frame is: "<< vm.GetCurrentFrame() << std::endl;
 	vid_->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(vm.GetCurrentFrame()+1));
 	cv::Mat frame;
@@ -53,7 +52,7 @@ void UserDivide::ShowFrame(const VideoMarker &vm) {
 		std::string text = "MARKING CURRENT FRAME.";
 		int fontFace = cv::FONT_HERSHEY_PLAIN;
 		double fontScale = 1;
-		int thickness = 1;
+		int thickness = 2;
 		int baseline=0;
 		cv::Size textSize = cv::getTextSize(text, fontFace,
 		                            fontScale, thickness, &baseline);
@@ -62,7 +61,7 @@ void UserDivide::ShowFrame(const VideoMarker &vm) {
 		cv::Point textOrg((frame.cols - textSize.width)/2,
 		              (frame.rows + textSize.height)/2);
 		cv::putText(frame, text, textOrg, fontFace, fontScale,
-		        cv::Scalar::all(255), thickness, 8);
+		        cv::Scalar::all(0x000), thickness, 8);
 	}
 
 	cv::imshow(win_name_, frame);
@@ -89,9 +88,9 @@ void UserDivide::SegmentVideo(cv::VideoCapture *vc,
 		throw std::runtime_error("Cannot read 1st frame!\n");
 
 	// Show first frame
-	win_name_ = "w";
-	cv::namedWindow(win_name_);
-	cv::setMouseCallback(win_name_, CallBackFunc, static_cast<void*>(this));
+	win_name_ = "Manually Select Frames";
+	cv::namedWindow(win_name_, cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+	//cv::setMouseCallback(win_name_, CallBackFunc, static_cast<void*>(this));
 	ShowFrame(vm);
 
 	while (1) {
