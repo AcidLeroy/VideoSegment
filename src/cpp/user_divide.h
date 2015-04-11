@@ -9,11 +9,6 @@
 
 class UserDivide : public SegmenterInterface{
   public: 
-    static void CallBackFunc(int event, int x, int y, 
-        int flags, void *userdata);
-
-    void ShowFrame(const VideoMarker &vm) ;
-
     virtual void SegmentVideo(cv::VideoCapture *vc, 
         std::vector<Segment> *indices);  
   private: 
@@ -23,5 +18,10 @@ class UserDivide : public SegmenterInterface{
     Segment current_seg_; 
     bool toggle_; 
     bool marker_;
+
+    static void CallBackFunc(int event, int x, int y,
+        int flags, void *userdata);
+
+    void ShowFrame(const VideoMarker &vm) ;
 
 }; 

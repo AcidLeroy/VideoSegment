@@ -94,7 +94,7 @@ void UserDivide::SegmentVideo(cv::VideoCapture *vc,
 	ShowFrame(vm);
 
 	while (1) {
-		int c = cv::waitKey(100) & 0xff;
+		int c = cv::waitKey(10) & 0xff;
 		switch (c) {
 		case 3: // right arrow
 			std::cout << "Right arrow\n";
