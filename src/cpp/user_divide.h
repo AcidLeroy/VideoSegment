@@ -7,21 +7,21 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
-class UserDivide : public SegmenterInterface{
-  public: 
-    virtual void SegmentVideo(cv::VideoCapture *vc, 
-        std::vector<Segment> *indices);  
-  private: 
-    cv::VideoCapture * vid_; 
-    std::string win_name_; 
-    std::vector<Segment> segments_; 
-    Segment current_seg_; 
-    bool toggle_; 
-    bool marker_;
+class UserDivide: public SegmenterInterface {
+public:
+	virtual void SegmentVideo(cv::VideoCapture *vc,
+			std::vector<Segment> *indices);
+private:
+	cv::VideoCapture * vid_;
+	std::string win_name_;
+	std::vector<Segment> segments_;
+	Segment current_seg_;
+	bool toggle_;
+	bool marker_;
 
-    static void CallBackFunc(int event, int x, int y,
-        int flags, void *userdata);
+	static void CallBackFunc(int event, int x, int y, int flags,
+			void *userdata);
 
-    void ShowFrame(const VideoMarker &vm) ;
+	void ShowFrame(const VideoMarker &vm);
 
-}; 
+};

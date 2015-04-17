@@ -12,7 +12,8 @@ class EvenlyDivide : public SegmenterInterface {
   int GetNumDivisions() { return num_divisions_; }
   inline void SetMaxFrames(int frames) { max_frames_ = frames; }
   inline int GetMaxFrames() const { return (max_frames_); }
-  virtual void SegmentVideo(cv::VideoCapture *vc, std::vector<Segment> *indices);
+  virtual void SegmentVideo(cv::VideoCapture *vc,
+                            std::vector<Segment> *indices);
 
  private:
   int num_divisions_;
