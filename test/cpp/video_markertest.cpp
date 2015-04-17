@@ -89,11 +89,11 @@ TEST_F(VideoMarkerTest, TestTurningOffMarking) {
 }
 
 TEST_F(VideoMarkerTest, TestSortedFrames) {
-  vm.NextFrame();  // 1
-  vm.NextFrame();  // 2
+  vm.NextFrame();         // 1
+  vm.NextFrame();         // 2
   vm.TurnMarkerOn(true);  // 2
-  vm.PreviousFrame();  // 1
-  vm.PreviousFrame();  // 0
+  vm.PreviousFrame();     // 1
+  vm.PreviousFrame();     // 0
   vm.SortMarkedFrames();
   std::vector<int> frames = vm.GetMarkedFrames();
   EXPECT_EQ(0, frames[0]);
@@ -101,21 +101,39 @@ TEST_F(VideoMarkerTest, TestSortedFrames) {
 }
 
 TEST_F(VideoMarkerTest, TestGetMultipleSegment) {
-  vm.NextFrame();  // 1
-  vm.NextFrame();  // 2
-  vm.TurnMarkerOn(true);  // 2
-  vm.NextFrame();  // 3
-  vm.NextFrame();  // 4
+  vm.NextFrame();          // 1
+  vm.NextFrame();          // 2
+  vm.TurnMarkerOn(true);   // 2
+  vm.NextFrame();          // 3
+  vm.NextFrame();          // 4
   vm.TurnMarkerOn(false);  // 4
-  vm.NextFrame();  // 5
-  vm.NextFrame();  // 6
-  vm.TurnMarkerOn(true);  // 6
-  vm.NextFrame();  // 7
-  vm.NextFrame();  // 8
+  vm.NextFrame();          // 5
+  vm.NextFrame();          // 6
+  vm.TurnMarkerOn(true);   // 6
+  vm.NextFrame();          // 7
+  vm.NextFrame();          // 8
   std::vector<Segment> exp_segs = vm.GetSegments();
   ASSERT_EQ(2, exp_segs.size());
   EXPECT_EQ(2, exp_segs[0].begin);
   EXPECT_EQ(3, exp_segs[0].end);
   EXPECT_EQ(6, exp_segs[1].begin);
   EXPECT_EQ(8, exp_segs[1].end);
+}
+
+TEST_F(VideoMarkerTest, TestRemoveFrames) {
+  vm.TurnMarkerOn(true);    // 0 - marked
+  vm.NextFrame();           // 1 - marked
+  vm.UnmarkCurrentFrame();  // 1 unmarked
+  vm.PreviousFrame();       // 0
+  vm.UnmarkCurrentFrame();  // 0 unmarked
+  ASSERT_EQ(0, vm.GetMarkedFrames().size());
+}
+
+TEST_F(VideoMarkerTest, TestRemoveCorrectFrame) {
+  vm.TurnMarkerOn(true);    // 0 - marked
+  vm.NextFrame();           // 1 - marked
+  vm.UnmarkCurrentFrame();  // 1 unmarked
+  vm.PreviousFrame();       // 0
+  ASSERT_EQ(1, vm.GetMarkedFrames().size());
+  EXPECT_EQ(0, vm.GetMarkedFrames()[0]);
 }
