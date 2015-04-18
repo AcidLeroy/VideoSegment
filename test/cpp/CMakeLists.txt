@@ -14,6 +14,7 @@ target_link_libraries(EvenlyDivideTest
 
 target_link_libraries(UserDivideTest 
   UserDivide
+  VideoMarker
   ${OpenCV_LIBS}
   ${GTEST_BOTH_LIBRARIES})
 
