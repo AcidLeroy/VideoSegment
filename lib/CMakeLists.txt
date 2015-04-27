@@ -26,9 +26,6 @@ target_link_libraries(video_segmenter
   )
 
 # Tests
-#add_executable(EvenlyDivideTest evenly_dividetest.cpp)
-#add_executable(UserDivideTest user_dividetest.cpp)
-
 add_executable(video_marker_test video_marker/video_marker_test.cpp)
 target_link_libraries(video_marker_test 
   ${GTEST_BOTH_LIBRARIES}
@@ -41,33 +38,3 @@ target_link_libraries(method_accuracy_test
   ${GTEST_BOTH_LIBRARIES}
   video_segmenter)
 add_test(segmenter_tests method_accuracy_test)
-
-#add_executable(MethodAccuracyTest method_accuracy.cpp)
-#
-#include_directories(${OpenCV_INCLUDE_DIRS}
-#  ${GTEST_INCLUDE_DIRS}
-#  ../../src/cpp/
-#  )
-#
-#target_link_libraries(EvenlyDivideTest 
-#  EvenlyDivide
-#  ${OpenCV_LIBS}
-#  ${GTEST_BOTH_LIBRARIES})
-#
-#target_link_libraries(UserDivideTest 
-#  UserDivide
-#  VideoMarker
-#  ${OpenCV_LIBS}
-#  ${GTEST_BOTH_LIBRARIES})
-#
-#target_link_libraries(VideoMarkerTest 
-#  VideoMarker
-#  ${GTEST_BOTH_LIBRARIES})
-#
-#target_link_libraries(MethodAccuracyTest 
-#  ${GTEST_BOTH_LIBRARIES})
-#
-#add_test(AllTestsInSegmenter EvenlyDivideTest)
-#add_test(AllTestsInSegmenter UserDivideTest)
-#add_test(AllTestsInSegmenter VideoMarkerTest)
-#add_test(AllTestsInSegmenter MethodAccuracyTest)
