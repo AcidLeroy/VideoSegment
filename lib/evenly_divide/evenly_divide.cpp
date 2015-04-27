@@ -1,7 +1,7 @@
 // Copyright (c) 2015 <Cody W. Eilar>
 #include "evenly_divide.h"  // NOLINT
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 #include <vector>
 #include "opencv2/opencv.hpp"
 

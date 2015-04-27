@@ -5,6 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <stdexcept>
 
 void UserDivide::CallBackFunc(int event, int x, int y, int flags,
                               void *userdata) {
