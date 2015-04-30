@@ -12,5 +12,5 @@ find_package( OpenCV REQUIRED )
 enable_testing()
 find_package(GTest REQUIRED)
 
-add_subdirectory(lib)
+add_subdirectory(src)
 
