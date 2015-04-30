@@ -11,3 +11,6 @@ a = pvs.PyMethodAccuracy(gnd_truth, predicted, 10)
 a.PrintVectors()
 print("Number of false positives: ")
 print(a.NumFalsePositives()); 
+print(a.NumTruePositives()); 
+print(a.NumFalseNegatives()); 
+print(a.NumTrueNegatives()); 
