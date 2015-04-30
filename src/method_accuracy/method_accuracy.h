@@ -2,7 +2,6 @@
 #define SRC_METHOD_ACCURACY_METHOD_ACCURACY_H_
 #include <iterator>
 #include <vector>
-#include "segmenter_interface.h"
 
 class MethodAccuracy {
  public:

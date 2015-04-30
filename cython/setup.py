@@ -2,11 +2,12 @@ from distutils.core import setup, Extension
 from Cython.Distutils import build_ext
 import os
 import sys
+import numpy
 
 opencv_prefix = os.environ.get('OpenCV_DIR')
 
 if opencv_prefix == None: 
-    print "Please set the OpenCV_DIR environment variable to build this."
+    print("Please set the OpenCV_DIR environment variable to build this.")
     sys.exit()
 
 # Need to link in opencv libraries
@@ -22,6 +23,7 @@ opencv_lib_dirs = [opencv_prefix + "/lib"]
 # Include directores for the CPP source
 video_segment_includes = [
     "../src/interfaces",
+    "../src/method_accuracy",
     "../src/user_divide",
     "../src/video_marker" 
 ]
@@ -31,7 +33,7 @@ setup(ext_modules=[Extension(
     "py_video_segment",  # name of extension
     ["py_video_segment.pyx"],  # filename of our Pyrex/Cython
     language="c++",  # this causes Pyrex/Cython to create C++ source
-    include_dirs= opencv_inc_dirs + video_segment_includes,
+    include_dirs= opencv_inc_dirs + video_segment_includes + [numpy.get_include()],
     library_dirs=["../../build/lib/"] + opencv_lib_dirs,  # ditto
     libraries=["video_segmenter"] + opencvlibs,  # ditto
     extra_link_args=[],)],  # if needed
