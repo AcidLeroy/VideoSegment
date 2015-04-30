@@ -34,9 +34,10 @@ setup(ext_modules=[Extension(
     ["py_video_segment.pyx"],  # filename of our Pyrex/Cython
     language="c++",  # this causes Pyrex/Cython to create C++ source
     include_dirs= opencv_inc_dirs + video_segment_includes + [numpy.get_include()],
-    library_dirs=["../../build/lib/"] + opencv_lib_dirs,  # ditto
+    library_dirs=["../build/lib/"] + opencv_lib_dirs,  # ditto
     libraries=["video_segmenter"] + opencvlibs,  # ditto
-    extra_link_args=[],)],  # if needed
+    extra_compile_args=["-std=c++11"],
+    extra_link_args=["--verbose"],)],  # if neede
     author="Cody W. Eilar",
     author_email="Cody.W.Eilar@gmail.com",
     cmdclass={'build_ext': build_ext})

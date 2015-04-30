@@ -127,12 +127,8 @@ void UserDivide::SegmentVideo(cv::VideoCapture *vc,
 
       case 27:  // esc
         std::cout << "Marked frames: \n";
-        std::vector<size_t> segs = vm_->GetMarkedFrames();
-        for (auto &i : segs) {
-          std::cout << i << ", ";
-        }
+        *indices = vm_->GetMarkedFrames();
         std::cout << std::endl;
-        *indices = segs;
         return;
     }
   }

@@ -2,11 +2,6 @@ from libcpp.string cimport string
 include "../py_opencv/py_opencv.pyx"
 include "../py_utils/vector_numpy.pyx"
 from libcpp.vector cimport vector
-from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-
-cdef extern from "segmenter_interface.h":
-    ctypedef struct Segment: 
-        pass
     
 cdef extern from "user_divide.h":
     cdef cppclass UserDivide: 
@@ -31,8 +26,9 @@ cdef class PyUserDivide:
     def __dealloc__(self): 
         del self.thisptr
     def SegmentVideo(self, PyVideoCapture pvc): 
-        cdef vector[size_t] *out = new vector[size_t](); 
-        self.thisptr.SegmentVideo(pvc.vc, out); 
+        cdef vector[size_t] out;
+        self.thisptr.SegmentVideo(pvc.vc, &out); 
+        return out
 
         
         

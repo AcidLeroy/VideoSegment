@@ -9,3 +9,8 @@ def ConvertNpArray2Vector(np.ndarray[long, ndim=1] a):
     # This step is unfortunate because we have to copy
     v.assign(&a[0], &a[0] + a.shape[0]); 
     return v 
+
+def ConvertVector2NpArray(vector[long] a): 
+    cdef long * arr = &a[0]
+    
+

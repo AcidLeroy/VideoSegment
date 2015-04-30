@@ -4,5 +4,6 @@ import py_video_segment as pvs
 
 pud = pvs.PyUserDivide()
 cap = pvs.PyVideoCapture("/Users/cody/test.MOV")
-pud.SegmentVideo(cap)
+vals = pud.SegmentVideo(cap)
 
+print(vals)
