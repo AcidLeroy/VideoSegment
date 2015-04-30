@@ -1,5 +1,6 @@
-        
 from libcpp.string cimport string
+
+include "../py_opencv/py_opencv.pyx"
 
 cdef extern from "segmenter_interface.h":
     ctypedef struct Segment: 
@@ -9,9 +10,6 @@ cdef extern from "<vector>" namespace "std":
     cdef cppclass vector [T]: 
         pass
 
-cdef extern from "<opencv2/videoio/videoio.hpp>" namespace "cv": 
-    cdef cppclass VideoCapture:
-        VideoCapture(string)
     
 
 cdef extern from "user_divide.h":

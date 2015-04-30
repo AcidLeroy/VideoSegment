@@ -1,3 +1,5 @@
-import UserDivide
+import sys
+sys.path.insert(0, '../lib/')
+import py_video_segment as pvs
 
-cap = UserDivide.PyVideoCapture("/Users/cody/stest.MOV")
+cap = pvs.PyVideoCapture("/Users/cody/test.MOV")
