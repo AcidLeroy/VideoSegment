@@ -4,3 +4,7 @@ build/*
 *.swp
 tags
 
+cython/lib
+cython/*.cpp
+*.DS_STORE
+*.project
