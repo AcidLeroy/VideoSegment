@@ -8,7 +8,7 @@ be followed in order to build are as follows:
 * To build c++ shared objects and programs once directory has been cloned: 
 ```
 mkdir build
-cd build`
+cd build
 cmake ..
 make -j
 ```
@@ -19,6 +19,8 @@ python setup.py build_ext
 ```
 Notes for building: 
 * C++ shared objects **must** be created first before cython modules can be created. 
+* The python shared object is put into cython/lib/py_video_segment.so.
+* In order to build the Cython modules, you **must** specify OpenCV_DIR environment variable. 
 
 ## Coding Convention
 [Google C++
