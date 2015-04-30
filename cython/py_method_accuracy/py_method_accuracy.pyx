@@ -2,6 +2,7 @@ from libcpp.string cimport string
 from libcpp.vector cimport vector
 import numpy as np
 cimport numpy as np
+include "../py_utils/vector_numpy.pyx"
 
 cdef extern from "method_accuracy.h":
     cdef cppclass MethodAccuracy: 
@@ -19,13 +20,13 @@ cdef extern from "method_accuracy.h":
         long NumTruePositives[T](vector[T] &gnd_truth,
             vector[T] &predicted, long length); 
 
-def ConvertNpArray2Vector(np.ndarray[long, ndim=1] a): 
-    cdef vector[long] v; 
-    v.reserve(a.shape[0]); 
-    print("Size is : %d" % a.shape[0])
-    # This step is unfortunate because we have to copy
-    v.assign(&a[0], &a[0] + a.shape[0]); 
-    return v 
+#def ConvertNpArray2Vector(np.ndarray[long, ndim=1] a): 
+#    cdef vector[long] v; 
+#    v.reserve(a.shape[0]); 
+#    print("Size is : %d" % a.shape[0])
+#    # This step is unfortunate because we have to copy
+#    v.assign(&a[0], &a[0] + a.shape[0]); 
+#    return v 
    
 
 cdef class PyMethodAccuracy:
@@ -43,8 +44,6 @@ cdef class PyMethodAccuracy:
 
     def __dealloc__(self): 
         del self.thisptr
-    def SayHello(self): 
-        print("Hello there!")
 
     def PrintVectors(self): 
         print("Predicted values: "); 
