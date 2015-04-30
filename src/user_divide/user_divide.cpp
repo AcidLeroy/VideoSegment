@@ -13,34 +13,18 @@ void UserDivide::CallBackFunc(int event, int x, int y, int flags,
   if (event == cv::EVENT_LBUTTONDOWN) {
     // Increment video
     std::cout << "Left clicked: (" << x << "," << y << ")\n";
-    cv::Mat frame;
-    bool success = ud->vid_->read(frame);
-    if (!success) throw std::runtime_error("Cannot read frame!\n");
 
   } else if (event == cv::EVENT_RBUTTONDOWN) {
     // Toggle start and stop
     std::cout << "Right clicked: (" << x << "," << y << ")\n";
-    const int curr_frame =
-        static_cast<int>(ud->vid_->get(cv::CAP_PROP_POS_FRAMES) - 1);
-    std::cout << "Current frame is: " << curr_frame << std::endl;
-    if (curr_frame == ud->current_seg_.begin) return;
-    if (ud->toggle_) {
-      std::cout << "Begin frame =" << curr_frame << std::endl;
-      ud->current_seg_.begin = curr_frame;
-    } else {
-      std::cout << "End frame = " << curr_frame << std::endl;
-      ud->current_seg_.end = curr_frame;
-      ud->segments_.push_back(ud->current_seg_);
-    }
-    ud->toggle_ = !ud->toggle_;
   }
 }
 
-void UserDivide::ShowFrame(VideoMarker &vm) {
+void UserDivide::ShowFrame() {
   // Resize image because it is too big
-  std::cout << "current frame is: " << vm.GetCurrentFrame() << std::endl;
+  std::cout << "current frame is: " << vm_->GetCurrentFrame() << std::endl;
   vid_->set(cv::CAP_PROP_POS_FRAMES,
-            static_cast<double>(vm.GetCurrentFrame() + 1));
+            static_cast<double>(vm_->GetCurrentFrame() + 1));
   cv::Mat frame;
   bool success = vid_->read(frame);
   if (!success) throw std::runtime_error("Cannot read frame!\n");
@@ -52,7 +36,7 @@ void UserDivide::ShowFrame(VideoMarker &vm) {
   }
   if (unmark_frame_) {
     std::string text = "UNMARKING CURRENT FRAME.";
-    vm.UnmarkCurrentFrame();
+    vm_->UnmarkCurrentFrame();
     AddText(text, &frame);
   }
 
@@ -78,19 +62,17 @@ void UserDivide::AddText(const std::string &txt, cv::Mat *frame) {
 }
 
 void UserDivide::SegmentVideo(cv::VideoCapture *vc,
-                              std::vector<Segment> *indices) {
+                              std::vector<size_t> *indices) {
   // Set local pointer
   if (vc != NULL)
     vid_ = vc;
   else
     throw std::runtime_error("Received NULL pointer!\n");
 
-  VideoMarker vm;
+  vm_.reset(new VideoMarker);
 
   toggle_ = true;
   marker_ = false;
-  current_seg_.begin = -1;
-  current_seg_.end = -1;
   unmark_frame_ = false;
 
   cv::Mat frame;
@@ -100,56 +82,56 @@ void UserDivide::SegmentVideo(cv::VideoCapture *vc,
   // Show first frame
   win_name_ = "Manually Select Frames";
   cv::namedWindow(win_name_, cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
-  ShowFrame(vm);
+  ShowFrame();
 
   while (1) {
     int c = cv::waitKey(1000) & 0xff;
     switch (c) {
       case 3:  // right arrow
         std::cout << "Right arrow\n";
-        vm.NextFrame();
-        ShowFrame(vm);
+        vm_->NextFrame();
+        ShowFrame();
         break;
 
       case 2:  // left arrow
         std::cout << "Left arrow\n";
-        vm.PreviousFrame();
-        ShowFrame(vm);
+        vm_->PreviousFrame();
+        ShowFrame();
         break;
 
       case 0:  // up arrow
         std::cout << "Up arrow\n";
-        vm.NextFrame();
-        ShowFrame(vm);
+        vm_->NextFrame();
+        ShowFrame();
         break;
 
       case 1:  // down arrow
         std::cout << "Down arrow\n";
-        vm.PreviousFrame();
-        ShowFrame(vm);
+        vm_->PreviousFrame();
+        ShowFrame();
         break;
 
       case 109:  // m for mark
         marker_ = !marker_;
         unmark_frame_ = false;
-        vm.TurnMarkerOn(marker_);
+        vm_->TurnMarkerOn(marker_);
         std::cout << "Marking frame = " << marker_ << std::endl;
-        ShowFrame(vm);
+        ShowFrame();
         break;
       case 114:  // r remove marked frame
         marker_ = false;
-        vm.TurnMarkerOn(false);
+        vm_->TurnMarkerOn(false);
         unmark_frame_ = !unmark_frame_;
-        ShowFrame(vm);
+        ShowFrame();
         break;
 
       case 27:  // esc
-        std::cout << "begin\tend\n";
-        std::vector<Segment> segs = vm.GetSegments();
-        for (int i = 0; i < segs.size(); ++i) {
-          std::cout << segs[i].begin;
-          std::cout << "\t" << segs[i].end << std::endl;
+        std::cout << "Marked frames: \n";
+        std::vector<size_t> segs = vm_->GetMarkedFrames();
+        for (auto &i : segs) {
+          std::cout << i << ", ";
         }
+        std::cout << std::endl;
         *indices = segs;
         return;
     }

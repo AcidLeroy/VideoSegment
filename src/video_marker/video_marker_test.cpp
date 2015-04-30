@@ -55,7 +55,7 @@ TEST_F(VideoMarkerTest, TestDuplicateMarkedFrames) {
   vm.TurnMarkerOn(true);
   vm.NextFrame();
   vm.PreviousFrame();
-  std::vector<int> m_frames = vm.GetMarkedFrames();
+  std::vector<size_t> m_frames = vm.GetMarkedFrames();
   EXPECT_EQ(m_frames.size(), 2);
 }
 
@@ -75,7 +75,7 @@ TEST_F(VideoMarkerTest, TestGetSingleSegment) {
   vm.NextFrame();
   vm.NextFrame();
   std::vector<Segment> exp_segs = vm.GetSegments();
-  std::vector<int> marks = vm.GetMarkedFrames();
+  std::vector<size_t> marks = vm.GetMarkedFrames();
   ASSERT_EQ(1, exp_segs.size());
   EXPECT_EQ(2, exp_segs[0].begin);
   EXPECT_EQ(3, exp_segs[0].end);
@@ -84,7 +84,7 @@ TEST_F(VideoMarkerTest, TestGetSingleSegment) {
 TEST_F(VideoMarkerTest, TestTurningOffMarking) {
   vm.TurnMarkerOn(true);
   vm.TurnMarkerOn(false);
-  std::vector<int> marks = vm.GetMarkedFrames();
+  std::vector<size_t> marks = vm.GetMarkedFrames();
   EXPECT_EQ(0, marks.size());
 }
 
@@ -95,7 +95,7 @@ TEST_F(VideoMarkerTest, TestSortedFrames) {
   vm.PreviousFrame();     // 1
   vm.PreviousFrame();     // 0
   vm.SortMarkedFrames();
-  std::vector<int> frames = vm.GetMarkedFrames();
+  std::vector<size_t> frames = vm.GetMarkedFrames();
   EXPECT_EQ(0, frames[0]);
   EXPECT_EQ(1, frames[1]);
 }

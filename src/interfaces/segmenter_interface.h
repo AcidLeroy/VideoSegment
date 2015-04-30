@@ -6,13 +6,13 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <vector>
 typedef struct {
-  int begin; 
-  int end;  
+  int begin;
+  int end;
 } Segment;
 class SegmenterInterface {
  public:
   virtual ~SegmenterInterface() {}
   virtual void SegmentVideo(cv::VideoCapture *vc,
-                            std::vector<Segment> *indices) = 0;
+                            std::vector<size_t> *segments) = 0;
 };
 #endif  // SRC_CPP_SEGMENTER_INTERFACE_H_

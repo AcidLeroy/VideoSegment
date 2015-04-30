@@ -14,22 +14,20 @@
 
 class UserDivide : public SegmenterInterface {
  public:
-  virtual void SegmentVideo(cv::VideoCapture *vc,
-                            std::vector<Segment> *indices);
+  void SegmentVideo(cv::VideoCapture *vc, std::vector<size_t> *indices);
 
  private:
   cv::VideoCapture *vid_;
   std::string win_name_;
-  std::vector<Segment> segments_;
-  Segment current_seg_;
   bool toggle_;
   bool marker_;
   bool unmark_frame_;
   std::string output_file_;
+  std::unique_ptr<VideoMarker> vm_;
 
   static void CallBackFunc(int event, int x, int y, int flags, void *userdata);
 
-  void ShowFrame(VideoMarker &vm);
+  void ShowFrame();
   void AddText(const std::string &txt, cv::Mat *Frame);
 };
 

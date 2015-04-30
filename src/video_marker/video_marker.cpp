@@ -15,7 +15,7 @@ void VideoMarker::PreviousFrame() {
   if (marker_on_) MarkCurrentFrame();
 }
 bool VideoMarker::IsFrameMarked(int f) {
-  std::vector<int>::iterator it;
+  std::vector<size_t>::iterator it;
   it = find(marked_frames_.begin(), marked_frames_.end(), f);
   if (it != marked_frames_.end()) {
     return true;
@@ -40,7 +40,7 @@ void VideoMarker::RemoveLastMarkedFrame() {
   if (marked_frames_.size() > 0) marked_frames_.erase(marked_frames_.end() - 1);
 }
 
-std::vector<int> VideoMarker::GetMarkedFrames() { return marked_frames_; }
+std::vector<size_t> VideoMarker::GetMarkedFrames() { return marked_frames_; }
 
 std::vector<Segment> VideoMarker::GetSegments() {
   SortMarkedFrames();
@@ -69,7 +69,7 @@ void VideoMarker::SortMarkedFrames() {
 }
 
 void VideoMarker::UnmarkCurrentFrame() {
-  std::vector<int>::iterator it;
+  std::vector<size_t>::iterator it;
   it = find(marked_frames_.begin(), marked_frames_.end(), current_frame_);
   if (it != marked_frames_.end()) {
     marked_frames_.erase(it);

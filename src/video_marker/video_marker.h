@@ -24,7 +24,7 @@ class VideoMarker {
   void TurnMarkerOn(bool on);
 
   void RemoveLastMarkedFrame();
-  std::vector<int> GetMarkedFrames();
+  std::vector<size_t> GetMarkedFrames();
 
   std::vector<Segment> GetSegments();
 
@@ -36,7 +36,7 @@ class VideoMarker {
 
  private:
   int current_frame_;
-  std::vector<int> marked_frames_;
+  std::vector<size_t> marked_frames_;
   bool marker_on_;
 };
 
