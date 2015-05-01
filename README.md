@@ -3,24 +3,14 @@ Set of utilities to segment video based on particular actions that occur
 in the video. 
 
 ## How to build
-Unfortunately, there hasn't been time to implement a single, easy to use build. Currently, the steps that must
-be followed in order to build are as follows: 
-* To build c++ shared objects and programs once directory has been cloned: 
+Using Cmake, the shared objects for both the C++ project and the python shared objects can be created: 
 ```
 mkdir build
 cd build
 cmake ..
 make -j
 ```
-* To build the cython extensions to python:
-```
-cd cython
-python setup.py build_ext
-```
-Notes for building: 
-* C++ shared objects **must** be created first before cython modules can be created. 
-* The python shared object is put into cython/lib/py_video_segment.so.
-* In order to build the Cython modules, you **must** specify OpenCV_DIR environment variable. 
+Once these are built, the shared objects will be ready to use in `build/lib/`. 
 
 ## Coding Convention
 [Google C++
