@@ -16,6 +16,16 @@ find_package( NumPy REQUIRED )
 enable_testing()
 find_package(GTest REQUIRED)
 
+include_directories(
+  ${OpenCV_INCLUDE_DIRS}
+  ${GTEST_INCLUDE_DIRS}
+  ${NUMPY_INCLUDE_DIRS} 
+  ${VideoSegment_SOURCE_DIR}/src/evenly_divide
+  ${VideoSegment_SOURCE_DIR}/src/interfaces
+  ${VideoSegment_SOURCE_DIR}/src/method_accuracy
+  ${VideoSegment_SOURCE_DIR}/src/user_divide
+  ${VideoSegment_SOURCE_DIR}/src/video_marker)
+
 add_subdirectory(src)
 add_subdirectory(cython)
 

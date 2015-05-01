@@ -1,13 +1,3 @@
-# Include dirs
-include_directories( ${OpenCV_INCLUDE_DIRS}
-  ${GTEST_INCLUDE_DIRS}
-  evenly_divide
-  interfaces
-  method_accuracy
-  user_divide
-  video_marker
-  )
-
 # Library shared objects
 add_library(video_segmenter SHARED
   evenly_divide/evenly_divide.cpp
