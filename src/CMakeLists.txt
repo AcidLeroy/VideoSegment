@@ -42,6 +42,12 @@ target_link_libraries(method_accuracy_test
   video_segmenter)
 add_test( NAME method_accuracy_test  COMMAND method_accuracy_test)
 
+add_executable(video_loader_test
+  video_loader/video_loader_test.cpp)
+target_link_libraries(video_loader_test 
+  ${GTEST_BOTH_LIBRARIES}
+  video_segmenter)
+add_test( NAME video_loader_test  COMMAND video_loader_test)
 
 # Programs
 add_executable(select_frames_example 
