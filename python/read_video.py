@@ -28,8 +28,9 @@ def ReadVideo(filename, buf_size_mb):
             print("Fatal Error: Could not read/decode frame %d" % num)
             exit(-1)
         return frame
-        
-    
-    # Get the frames
-    frame_nums = list(range(0, int(num_frames)))
-    return (list(map(PopulateBuffer, frame_nums)))
+         
+    # Preallocate frames
+    frame_buffer = np.zeros((num_frames,) + frame.shape, dtype=np.uint8) 
+    for i in range(0, num_frames): 
+        frame_buffer[i, :, :, :] = PopulateBuffer(i)
+    return frame_buffer
