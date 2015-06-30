@@ -44,7 +44,8 @@ class Extractor:
             # swap
             ty, by = by, ty
 
-        return (np.index_exp[tx:(bx + 1), ty:(by + 1)])
+        # Index into array with [row, col]
+        return (np.index_exp[ty:(by + 1), tx:(bx + 1), :])
 
 
 class ExtractorTestCase(unittest.TestCase):
@@ -72,7 +73,7 @@ class ExtractorTestCase(unittest.TestCase):
 
     def test_GetNpIndices(self): 
         cube = [[(138.0, 100.0), 287.0, 126.0]]
-        truth = np.index_exp[138.0:(138.0+287.0+1), 100.0:(100.0+126.0+1)]
+        truth = np.index_exp[100.0:(100.0+126.0+1), 138.0:(138.0+287.0+1), :]
         actual = self.ex.GetNpIndices(cube); 
         self.assertEqual(truth, actual)
 

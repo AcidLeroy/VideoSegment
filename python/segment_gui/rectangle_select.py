@@ -2,7 +2,7 @@ import numpy as np
 from video_annotate import * 
 import pickle
         
-frames = np.random.rand(256,256,32)
+frames = np.random.rand(32,256,256,3)
 va = VideoAnnotate(frames, 3, "segment1.pkl")
 va.connect()
 plt.show()

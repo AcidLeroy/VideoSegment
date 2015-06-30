@@ -3,12 +3,19 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from drawable_rectangle import * 
 import pickle
+import sys
+
+sys.path.append("../")
+from read_video import VideoHelper
+# readopencv [frames, row, cols, colors]
+
 class VideoAnnotate:
-    def __init__(self, frames, step = 1, file_to_write = "tmp.pkl"):
-        self.frames = frames; 
+    def __init__(self, filename, step = 1, file_to_write = "tmp.pkl"):
+        self.frame_pos = 0; # indicate frame vector 
         self.fig = plt.figure(); 
         self.current_frame = 0; 
-        self.ax = plt.imshow(frames[:,:,self.current_frame])
+        self.vh = VideoHelper(filename); 
+        self.ax = plt.imshow(self.vh.ReadFrame(self.current_frame))
         self.dr = DrawableRectangle(self.ax) 
         self.step = step; 
         self.file_to_write = file_to_write; 
@@ -31,33 +38,30 @@ class VideoAnnotate:
 
         if event.key=='n':
             # Edge case (on last frame)
-            if self.current_frame == self.frames.shape[2]-1: 
+            if self.current_frame == self.vh.total_frames-1: 
                 rects = self.get_rectangles(); 
                 if (rects): 
-                    if self.cube_segment_array: 
-                        self.cube_segment_array[-1] = [self.current_frame, 
-                            self.current_frame, rects]; 
-                    else: 
-                        self.cube_segment_array.append([self.current_frame, 
-                            self.current_frame, rects]); 
+                      self.cube_segment_array.append([self.current_frame, 
+                          self.current_frame, rects]); 
                 return 
 
             print("Stepping {} frames".format(self.step))
 
             start = self.current_frame; 
-            if ((self.frames.shape[2]-1) - self.current_frame <= self.step):
-                self.current_frame = self.frames.shape[2]-1 
+            if ((self.vh.total_frames - 1) - self.current_frame <= self.step):
+                self.current_frame = self.vh.total_frames-1 
             else: 
                 self.current_frame += self.step-1;
 
             rects = self.get_rectangles(); 
-            self.ax.set_data(self.frames[:,:,self.current_frame])
-            self.dr.clear_patches(); 
-            self.ax.figure.canvas.draw()
             # end point not inclusive
             if(rects): 
                 self.cube_segment_array.append([start, 
                     self.current_frame, rects]); 
+            self.current_frame +=1;
+            self.ax.set_data(self.vh.ReadFrame(self.current_frame))
+            self.dr.clear_patches(); 
+            self.ax.figure.canvas.draw()
 
     def get_rectangles(self): 
         rectangles = []
