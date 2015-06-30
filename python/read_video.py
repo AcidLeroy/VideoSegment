@@ -25,6 +25,8 @@ def ReadVideo(filename, buf_size_mb, color=True):
     def PopulateBuffer(num):
         cap.set(cv2.CAP_PROP_POS_FRAMES, num)
         ret, frame = cap.read()
+        b,g,r = cv2.split(frame)       # get b,g,r
+        frame = cv2.merge([r,g,b])     # switch it to rgb
         
         if not ret:
             print("Fatal Error: Could not read/decode frame %d" % num)
