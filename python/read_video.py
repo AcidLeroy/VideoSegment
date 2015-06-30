@@ -41,3 +41,36 @@ def ReadVideo(filename, buf_size_mb, color=True):
     for i in range(0, num_frames): 
         frame_buffer[i, :] = PopulateBuffer(i)
     return frame_buffer
+
+
+class VideoHelper: 
+    def __init__(self, filename): 
+        self.cap = cv2.VideoCapture(filename)
+        if not self.cap.isOpened(): 
+            raise RuntimeError("Fatal Error: Could not open file {}".
+                format(filename))
+        cv_total_frames = cv2.CAP_PROP_FRAME_COUNT
+        self.total_frames = int(self.cap.get(cv_total_frames))
+
+    def ConvertToGray(self, frame): 
+        return(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)); 
+
+    def ReadFrame(self, frame_number): 
+        # Verify that we are in bounds
+        if (frame_number > self.total_frames): 
+           frame_number = self.total_frames 
+        self.cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+        ret, frame = self.cap.read()
+        if not ret:
+            raise RuntimeError("Fatal Error: Could not read/decode frame {}".
+                format(frame_number))
+
+        b,g,r = cv2.split(frame)       # get b,g,r
+        frame = cv2.merge([r,g,b])     # switch it to rgb
+        return frame
+
+            
+            
+        
+        
+   
