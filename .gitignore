@@ -8,3 +8,5 @@ cython/lib
 cython/*.cpp
 *.DS_STORE
 *.project
+__pycache__
+.ipynb_*
