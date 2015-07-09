@@ -39,6 +39,13 @@ target_link_libraries(video_loader_test
   video_segmenter)
 add_test( NAME video_loader_test  COMMAND video_loader_test)
 
+add_executable(aoi_selector_test
+  aoi_selector/aoi_selector_test.cpp)
+target_link_libraries(aoi_selector_test 
+  ${GTEST_BOTH_LIBRARIES}
+  ${OpenCV_LIBS})
+add_test( NAME aoi_selector_test  COMMAND aoi_selector_test)
+
 # Programs
 add_executable(select_frames_example 
   programs/select_frames.cpp)
