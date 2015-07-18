@@ -5,7 +5,7 @@ from drawable_rectangle import *
 import pickle
 import sys
 
-sys.path.append("../")
+#sys.path.append("../")
 from read_video import VideoHelper
 from read_video import ReadVideo
 # readopencv [frames, row, cols, colors]
