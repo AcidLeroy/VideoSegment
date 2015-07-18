@@ -10,3 +10,5 @@ cython/*.cpp
 *.project
 __pycache__
 .ipynb_*
+*.pyc
+*.hdf5

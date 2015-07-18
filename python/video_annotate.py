@@ -5,11 +5,8 @@ from drawable_rectangle import *
 import pickle
 import sys
 
-#sys.path.append("../")
 from read_video import VideoHelper
-from read_video import ReadVideo
 # readopencv [frames, row, cols, colors]
-
 class VideoAnnotate:
     def __init__(self, filename, step = 1, file_to_write = "tmp.pkl", load_all = False):
         self.frame_pos = 0; # indicate frame vector 
@@ -30,7 +27,7 @@ class VideoAnnotate:
     def get_current_frame(self): 
         if (self.load_all):
             if (not(self.frames)):
-                self.frames = ReadVideo(self.filename, 500)
+                self.frames = self.vh.ReadToBuffer(500)
             return self.frames[self.current_frame, :, : , :]
         else: 
             if (not(self.vh)):
