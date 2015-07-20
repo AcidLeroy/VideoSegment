@@ -29,7 +29,7 @@ class Extractor:
         necessary to index into the full frame. 
         """
 
-        cube = cube[0]
+        #cube = cube[0]
         tx = cube[0][0]; 
         ty = cube[0][1]; 
         width = cube[1]; 
@@ -72,7 +72,7 @@ class ExtractorTestCase(unittest.TestCase):
         self.assertEqual(1, len(cubes))
 
     def test_GetNpIndices(self): 
-        cube = [[(138.0, 100.0), 287.0, 126.0]]
+        cube = [(138.0, 100.0), 287.0, 126.0]
         truth = np.index_exp[100.0:(100.0+126.0+1), 138.0:(138.0+287.0+1), :]
         actual = self.ex.GetNpIndices(cube); 
         self.assertEqual(truth, actual)
