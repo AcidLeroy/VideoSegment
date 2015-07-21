@@ -45,7 +45,7 @@ class Extractor:
             ty, by = by, ty
 
         # Index into array with [row, col]
-        return (np.index_exp[ty:(by + 1), tx:(bx + 1), :])
+        return (np.index_exp[ty:by, tx:bx, :])
 
 
 class ExtractorTestCase(unittest.TestCase):
