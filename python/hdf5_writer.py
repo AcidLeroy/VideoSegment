@@ -2,7 +2,7 @@ import numpy as np
 import h5py as h5
 from hasher import hashfile
 from extractor import Extractor
-from read_video import VideoHelper
+from video_helper import VideoHelper
 import matplotlib.pyplot as plt
 
 def WriteFromPkl(hdf5_file, movie_file, type_of_movie):

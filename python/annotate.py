@@ -3,7 +3,7 @@ from video_annotate import *
 import pickle
 import sys
 sys.path.append('../')
-from read_video import * 
+from video_helper import * 
 
 filename = sys.argv[1]
 step = int(sys.argv[2])
